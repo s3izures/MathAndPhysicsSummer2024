@@ -15,28 +15,35 @@ public class AttributeManager : MonoBehaviour
 
     public Text attributeDisplay;
     public int attributes = 0;
+    private bool reset = false;
 
     private void OnTriggerEnter(Collider other)
     {
+        //Get Attributes
         if(other.gameObject.tag == "MAGIC")
         {
             attributes |= MAGIC;
+            other.gameObject.SetActive(false);
         }
         else if (other.gameObject.tag == "INTELLIGENCE")
         {
             attributes |= INTELLIGENCE;
+            other.gameObject.SetActive(false);
         }
         else if (other.gameObject.tag == "CHARISMA")
         {
             attributes |= CHARISMA;
+            other.gameObject.SetActive(false);
         }
         else if (other.gameObject.tag == "FLY")
         {
             attributes |= FLY;
+            other.gameObject.SetActive(false);
         }
         else if (other.gameObject.tag == "INVISIBLE")
         {
             attributes |= INVISIBLE;
+            other.gameObject.SetActive(false);
         }
         else if (other.gameObject.tag == "ANTIMAGIC")
         {
@@ -54,7 +61,73 @@ public class AttributeManager : MonoBehaviour
         {
             attributes = 0;
         }
+        else if (other.gameObject.tag == "GOLDEN")
+        {
+            attributes |= INTELLIGENCE + CHARISMA + FLY + MAGIC + INVISIBLE;
+            other.gameObject.SetActive(false);
+        }
+    }
 
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "MAGIC_DOOR" && (attributes & MAGIC) != 0)
+        {
+            other.collider.isTrigger = true;
+            attributes &= ~MAGIC;
+        }
+        else if (other.gameObject.tag == "INTELLIGENCE_DOOR" && (attributes & INTELLIGENCE) != 0)
+        {
+            other.collider.isTrigger = true;
+            attributes &= ~INTELLIGENCE;
+        }
+        else if (other.gameObject.tag == "CHARISMA_DOOR" && (attributes & CHARISMA) != 0)
+        {
+            other.collider.isTrigger = true;
+            attributes &= ~CHARISMA;
+        }
+        else if (other.gameObject.tag == "FLY_DOOR" && (attributes & FLY) != 0)
+        {
+            other.collider.isTrigger = true;
+            attributes &= ~FLY;
+        }
+        else if (other.gameObject.tag == "INVISIBLE_DOOR" && (attributes & INVISIBLE) != 0)
+        {
+            other.collider.isTrigger = true;
+            attributes &= ~INVISIBLE;
+        }
+        else if (other.gameObject.tag == "CUTE_AND_SMART_DOOR" && (attributes & (CHARISMA + INTELLIGENCE)) != 0)
+        {
+            other.collider.isTrigger = true;
+            attributes &= ~(CHARISMA + INTELLIGENCE);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "MAGIC_DOOR" && (attributes & MAGIC) == 0)
+        {
+            other.isTrigger = false;
+        }
+        else if (other.gameObject.tag == "INTELLIGENCE_DOOR" && (attributes & INTELLIGENCE) == 0)
+        {
+            other.isTrigger = false;
+        }
+        else if (other.gameObject.tag == "CHARISMA_DOOR" && (attributes & CHARISMA) == 0)
+        {
+            other.isTrigger = false;
+        }
+        else if (other.gameObject.tag == "FLY_DOOR" && (attributes & FLY) == 0)
+        {
+            other.isTrigger = false;
+        }
+        else if (other.gameObject.tag == "INVISIBLE_DOOR" && (attributes & INVISIBLE) == 0)
+        {
+            other.isTrigger = false;
+        }
+        else if (other.gameObject.tag == "CUTE_AND_SMART_DOOR" && (attributes & (CHARISMA + INTELLIGENCE)) == 0)
+        {
+            other.isTrigger = false;
+        }
     }
 
     // Start is called before the first frame update
