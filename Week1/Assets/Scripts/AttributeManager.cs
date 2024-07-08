@@ -70,6 +70,7 @@ public class AttributeManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        //Open door
         if (other.gameObject.tag == "MAGIC_DOOR" && (attributes & MAGIC) != 0)
         {
             other.collider.isTrigger = true;
@@ -104,6 +105,7 @@ public class AttributeManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        //Lock door
         if (other.gameObject.tag == "MAGIC_DOOR" && (attributes & MAGIC) == 0)
         {
             other.isTrigger = false;
@@ -124,7 +126,7 @@ public class AttributeManager : MonoBehaviour
         {
             other.isTrigger = false;
         }
-        else if (other.gameObject.tag == "CUTE_AND_SMART_DOOR" && (attributes & (CHARISMA + INTELLIGENCE)) == 0)
+        else if (other.gameObject.tag == "CUTE_AND_SMART_DOOR" && (attributes & (CHARISMA + INTELLIGENCE)) == 0) //Pink door
         {
             other.isTrigger = false;
         }
