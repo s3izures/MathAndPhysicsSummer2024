@@ -1,0 +1,4 @@
+﻿  Main.cpp
+S:\N\MathAndPhysicsSummer2024\Lab2\Lab2\Main.cpp(126,57): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+S:\N\MathAndPhysicsSummer2024\Lab2\Lab2\Main.cpp(141,69): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Lab2.vcxproj -> S:\N\MathAndPhysicsSummer2024\Lab2\x64\Debug\Lab2.exe
