@@ -13,7 +13,7 @@ void vectorAcceleration();
 
 int main()
 {
-    //velocityAcceleration();
+    velocityAcceleration();
     motionEquations();
     //vectorAcceleration();
 }
