@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <vector>
 #include <string>
 
@@ -20,7 +20,7 @@ int main()
 
 void velocityAcceleration()
 {
-    // TASK: Write a simple program that will ask for a polynomial that presents the object’s position in timeand returns instantaneous velocity and acceleration in a specified moment.
+    // TASK: Write a simple program that will ask for a polynomial that presents the objectï¿½s position in timeand returns instantaneous velocity and acceleration in a specified moment.
     int highestOrder = 0;
     std::vector<float> coefficients;
     float input = 0;
@@ -177,7 +177,7 @@ void motionEquations()
     {
         std::cout << i << ". " << variableName[i] << std::endl;
     }
-    
+
     while (input < 0 || input >= 6)
     {
         std::cout << "Enter the number beside the chosen variable: ";
@@ -292,7 +292,7 @@ void motionEquations()
     else if (variableToFind == 2) //Average Velocity
     {
         if (isVariable[0] && isVariable[1])
-        { 
+        {
             equation = 2;
         }
     }
@@ -440,7 +440,7 @@ float moEq2(int targetVariable, float variables[6])
     else if (targetVariable == 2)
     {
         std::cout << "average velocity = (initial velocity + final velocity) / 2" << std::endl;
-        vA = (vI + vF) /2;
+        vA = (vI + vF) / 2;
         return vA;
     }
     return NULL;
@@ -618,5 +618,5 @@ float moEq5(int targetVariable, float variables[6])
 
 void vectorAcceleration()
 {
-    //TASK: Write a simple program that will ask for an object’s weight and all the forces acting on the object and return the resulting acceleration. (acceleration should be a scalar)
+    //TASK: Write a simple program that will ask for an objectï¿½s weight and all the forces acting on the object and return the resulting acceleration. (acceleration should be a scalar)
 }
