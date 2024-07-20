@@ -13,14 +13,24 @@ void vectorAcceleration();
 
 int main()
 {
+    std::cout << "--- TASK 1 ---" << std::endl << std::endl;
     velocityAcceleration();
+    system("pause");
+    system("CLS");
+
+    std::cout << "--- TASK 2 ---" << std::endl << std::endl;
     motionEquations();
-    //vectorAcceleration();
+    system("pause");
+    system("CLS");
+
+    std::cout << "--- TASK 3 ---" << std::endl << std::endl;
+    vectorAcceleration();
 }
 
 void velocityAcceleration()
 {
-    // TASK: Write a simple program that will ask for a polynomial that presents the object�s position in timeand returns instantaneous velocity and acceleration in a specified moment.
+    // TASK: Write a simple program that will ask for a polynomial that presents the object's position in time and returns instantaneous velocity and acceleration in a specified moment.
+    
     int highestOrder = 0;
     std::vector<float> coefficients;
     float input = 0;
@@ -53,7 +63,7 @@ void velocityAcceleration()
 
 
     //Ask for moment
-    std::cout << std::endl << "Enter value of x: ";
+    std::cout << std::endl << "Enter time (value of x): ";
     std::cin >> x;
 
 
@@ -108,15 +118,15 @@ void velocityAcceleration()
             if (i > 2) //higher than x^2 (ex: x^2, x^6)
             {
                 //y' = n*x^(n-1)
-                std::cout << i * coefficients[highestOrder - i] << "x^" << i - 1;
+                std::cout << i * coefficients[highestOrder - i] << "x^" << i - 1 << " ";
             }
             else if (i == 2) //is x
             {
-                std::cout << i * coefficients[highestOrder - i] << "x";
+                std::cout << i * coefficients[highestOrder - i] << "x ";
             }
             else if (i == 1) //constant is dropped
             {
-                std::cout << coefficients[highestOrder - i];
+                std::cout << coefficients[highestOrder - i] << " ";
             }
         }
     }
@@ -618,5 +628,101 @@ float moEq5(int targetVariable, float variables[6])
 
 void vectorAcceleration()
 {
-    //TASK: Write a simple program that will ask for an object�s weight and all the forces acting on the object and return the resulting acceleration. (acceleration should be a scalar)
+    //TASK: Write a simple program that will ask for an object�s weight and all the forces acting on the object and return the resulting acceleration. (acceleration should be a vector)
+
+    typedef struct Vector2 {
+        float x;
+        float y;
+        float z;
+
+        Vector2()
+        {
+            x = 0.0f;
+            y = 0.0f;
+            z = 0.0f;
+        }
+        Vector2(float xV, float yV, float zV)
+        {
+            x = xV;
+            y = yV;
+            z = zV;
+        }
+        Vector2& operator+=(const Vector2& rhs)
+        {
+            x += rhs.x;
+            y += rhs.y;
+            z += rhs.z;
+            return *this;
+        }
+        Vector2& operator/(const float r)
+        {
+            x /= r;
+            y /= r;
+            z /= r;
+            return *this;
+        }
+        Vector2& operator=(const Vector2& rhs)
+        {
+            if (this == &rhs)
+            {
+                return *this;
+            }
+            x = rhs.x;
+            y = rhs.y;
+            z = rhs.z;
+            return *this;
+        }
+    } Vector2;
+
+    float weight = 0;
+    int forceAmt = 0;
+    float force[3] = { 0 };
+
+    std::vector<Vector2> forces;
+    Vector2 netForce;
+    Vector2 acceleration;
+
+    //Ask for weight and amount of forces
+    std::cout << "Enter weight of object: ";
+    std::cin >> weight;
+    std::cout << "How many forces to apply onto object?: ";
+    std::cin >> forceAmt;
+
+    system("CLS");
+
+    //Enter forces
+    std::cout << "Using left-handed coordinate system:" << std::endl;
+    for (int i = 0; i < forceAmt; i++)
+    {
+        std::cout << std::endl << "Force " << i + 1 << " of " << forceAmt << ": " << std::endl;
+
+        std::cout << "Enter x value (positive = right, negative = left)\n-> ";
+        std::cin >> force[0];
+        std::cout << "Enter y value (positive = up, negative = down)\n-> ";
+        std::cin >> force[1];
+        std::cout << "Enter z value (positive = forward, negative = backward)\n-> ";
+        std::cin >> force[2];
+
+        Vector2 temp(force[0], force[1], force[2]);
+        forces.push_back(temp);
+    }
+
+    system("CLS");
+
+    //Calculation, equation is a = Fnet/m
+
+    //Get Fnet
+    for (int i = 0; i < forces.size(); i++)
+    {
+        std::cout << "Force " << i << " [" << forces[i].x << " , " << forces[i].y << " , " << forces[i].z << "] " << std::endl;
+        netForce += forces[i];
+    }
+
+    //Calculate
+    acceleration = netForce / weight;
+
+    //Print Results
+    std::cout << "Weight = " << weight << std::endl;
+    std::cout << "Net Force = [" << netForce.x << " , " << netForce.y << " , " << netForce.z << "]" << std::endl;
+    std::cout << "Acceleration = [" << acceleration.x << " , " << acceleration.y << " , " << acceleration.z << "]" << std::endl;
 }
