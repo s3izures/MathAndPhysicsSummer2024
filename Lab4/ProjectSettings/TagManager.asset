@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Wall
+  - Pickup
+  - Gate
   layers:
   - Default
   - TransparentFX
@@ -38,6 +41,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2555312291
+    locked: 0
+  - name: Play Area
+    uniqueID: 611218787
+    locked: 0
+  - name: Walls
+    uniqueID: 2899497707
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
