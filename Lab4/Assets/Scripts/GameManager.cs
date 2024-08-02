@@ -9,9 +9,7 @@ public class GameManager : MonoBehaviour
 
     //Variables
     private bool isCarMode = false;
-
     private int pickupsCollected = 0; //for unlocking purposes
-    private int pickupsCollectedInLifetime = 0; //for display purposes
     public enum AttributeType { RED = 1, GREEN = 2, BLUE = 4, YELLOW = 8 }
 
     void Awake()
@@ -40,7 +38,6 @@ public class GameManager : MonoBehaviour
     public void ModifyPickupAmount(Attributes pk)
     {
         pickupsCollected |= (int)pk.GetBit();
-        pickupsCollectedInLifetime |= (int)pk.GetBit();
     }
     public bool TryUnlock(Attributes pk) //if true, unlock door
     {
@@ -48,7 +45,6 @@ public class GameManager : MonoBehaviour
         {
             //Remove key
             pickupsCollected &= ~(int)pk.GetBit();
-            Debug.Log("Unlocked a door!");
             return true;
         }
         else

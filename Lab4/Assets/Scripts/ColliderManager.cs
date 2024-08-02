@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class ColliderManager : MonoBehaviour
 {
@@ -54,14 +56,39 @@ public class ColliderManager : MonoBehaviour
                 }
                 else if (colliders[i].gameObject.CompareTag("Wall"))
                 {
-                    if (CheckCollisionCircleRect((CircleCollider)colliders[playerCollider], (RectangleCollider)colliders[i])) //Not working yet
+                    if (CheckCollisionCircleRect((CircleCollider)colliders[playerCollider], (RectangleCollider)colliders[i])) 
                     {
-                        Debug.Log("ur kissing a wall: " + colliders[i]);
+                        //ISSUE: Incredibly buggy wall pushback, does not work in corners
+                        Vector2 pos = colliders[playerCollider].transform.position;
+                        colliders[playerCollider].transform.position = pos + ColDistRectCir((CircleCollider)colliders[playerCollider], (RectangleCollider)colliders[i]);
+                    }
+                }
+                else if (colliders[i].gameObject.CompareTag("Gate"))
+                {
+                    if (CheckCollisionCircleRect((CircleCollider)colliders[playerCollider], (RectangleCollider)colliders[i])) //Incredibly buggy, does not work in corners
+                    {
+                        if (GameManager.Instance.TryUnlock(colliders[i].gameObject.GetComponent<Attributes>()))
+                        {
+                            DisableCollider(colliders[i]);
+                        }
+                        else //If it doesn't unlock, act like a wall
+                        {
+                            Vector2 pos = colliders[playerCollider].transform.position;
+                            colliders[playerCollider].transform.position = pos + ColDistRectCir((CircleCollider)colliders[playerCollider], (RectangleCollider)colliders[i]);
+                        }
+                    }
+                }
+                else if (colliders[i].gameObject.CompareTag("Finish"))
+                {
+                    if (CheckCollisionCircleRect((CircleCollider)colliders[playerCollider], (RectangleCollider)colliders[i])) //Incredibly buggy, does not work in corners
+                    {
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                     }
                 }
             }
         }
     }
+
     public int AddCollider(CustomCollider other)
     {
         colliders.Insert(colliders.Count, other);
@@ -95,7 +122,7 @@ public class ColliderManager : MonoBehaviour
 
         return collision;
     }
-    public bool CheckCollisionCircleRect(CircleCollider collider1, RectangleCollider collider2) //Not working yet
+    public bool CheckCollisionCircleRect(CircleCollider collider1, RectangleCollider collider2)
     {
         bool collision = false;
 
@@ -112,11 +139,44 @@ public class ColliderManager : MonoBehaviour
         }
         else
         {
-
+            //In case of corners
             float cornerDistanceSq = Mathf.Pow(centerDifference.x - collider2.GetSize().x / 2.0f, 2) + Mathf.Pow(centerDifference.y - collider2.GetSize().y / 2.0f, 2);
             collision = (cornerDistanceSq <= MathF.Pow(collider1.GetRadius(), 2));
         }
 
         return collision;
+    }
+    public Vector2 ColDistRectCir(CircleCollider collider1, RectangleCollider collider2)
+    {
+        Vector2 colDist = new Vector2(0, 0);
+
+        //Get intersection distance and return negative
+        float xDist = Mathf.Abs(collider1.GetCenter().x - collider2.GetCenter().x) - collider1.GetRadius();
+        float yDist = Mathf.Abs(collider1.GetCenter().y - collider2.GetCenter().y) - collider1.GetRadius();
+
+        if (collider1.GetCenter().x - collider2.GetCenter().x > collider1.GetCenter().y - collider2.GetCenter().y)
+        {
+            if (collider1.GetCenter().x <= collider2.GetCenter().x)
+            {
+                colDist.x = -xDist;
+            }
+            else
+            {
+                colDist.x = xDist;
+            }
+        }
+        else
+        {
+            if (collider1.GetCenter().y <= collider2.GetCenter().y)
+            {
+                colDist.y = -yDist;
+            }
+            else
+            {
+                colDist.y = yDist;
+            }
+        }
+
+        return colDist;
     }
 }
