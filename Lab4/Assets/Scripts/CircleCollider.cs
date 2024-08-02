@@ -5,19 +5,25 @@ using UnityEngine;
 public class CircleCollider : CustomCollider
 {
     [SerializeField] private Transform tf;
-    [SerializeField] private float radius;
-    [SerializeField] private ColliderTag colliderTag;
+    [SerializeField] private float offset;
+    [SerializeField] private bool isDynamic;
+    private float radius; //In order to get radius, divide diameter by 2
     private Vector2 center;
-    private int index = -1;
 
-    private void Update()
+    private void Start()
     {
         center = tf.position;
+        radius = (tf.localScale.x / 2 + tf.localScale.y / 2) / 2 + offset;
         UpdateCollider();
     }
-    public override ColliderTag GetTag()
+    private void Update()
     {
-        return colliderTag;
+        //In case it moves
+        if (isDynamic)
+        {
+            center = tf.position;
+            radius = (tf.localScale.x / 2 + tf.localScale.y / 2) / 2 + offset;
+        }
     }
 
     public override void DrawShape()
@@ -31,19 +37,15 @@ public class CircleCollider : CustomCollider
     }
     public override void UpdateCollider()
     {
-        if (index < 0)
-        {
-            CollisionManager.cInstance.AddCollision(this);
-            index = CollisionManager.cInstance.colliders.IndexOf(this);
-        }
-        else
-        {
-            CollisionManager.cInstance.UpdateCollision(this, index);
-        }
+        ColliderManager.Instance.AddCollider(this);
     }
 
     public float GetRadius()
     {
         return radius;
+    }
+    public Vector2 GetCenter()
+    {
+        return center;
     }
 }

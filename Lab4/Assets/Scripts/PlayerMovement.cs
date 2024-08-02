@@ -9,13 +9,6 @@ public class PlayerMovement : MonoBehaviour
     [Description("For more challenging gameplay, turn this on:")]
     [SerializeField] private Rigidbody2D rb;
 
-    private MatrixHelper.Matrix4 transformation = new MatrixHelper.Matrix4().Identity();
-
-    private void Start()
-    {
-
-    }
-
     void Update()
     {
         MatrixHelper.Matrix4 trans = new MatrixHelper.Matrix4().Translation2D(speed * Input.GetAxisRaw("Horizontal"),
