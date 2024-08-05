@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     //Variables
-    private bool isCarMode = false;
     private int pickupsCollected = 0; //for unlocking purposes
     public enum AttributeType { RED = 1, GREEN = 2, BLUE = 4, YELLOW = 8 }
 
@@ -22,16 +21,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-    }
-
-    //MOVEMENT
-    public void ToggleCarMode()
-    {
-        isCarMode = !isCarMode;
-    }
-    public bool GetCarMode()
-    {
-        return isCarMode;
     }
 
     //PICKUPS and UNLOCKING
