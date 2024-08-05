@@ -14,10 +14,7 @@ public class PlayerMovement : MonoBehaviour
         MatrixHelper.Matrix4 trans = new MatrixHelper.Matrix4().Translation2D(speed * Input.GetAxisRaw("Horizontal"),
                                                     speed * Input.GetAxisRaw("Vertical"));
 
-        if (GameManager.Instance.GetCarMode()) //For more challenging gameplay + not the most proper use of translation
-        {
-            rb.AddForce(new Vector2 (trans.GetTranslation().x, trans.GetTranslation().y));
-        }
+        
         else //Moving circle by using matrix
         {
             transform.position = new Vector3(transform.position.x + trans.GetTranslation().x * Time.deltaTime,
