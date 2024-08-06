@@ -14,12 +14,9 @@ public class PlayerMovement : MonoBehaviour
         MatrixHelper.Matrix4 trans = new MatrixHelper.Matrix4().Translation2D(speed * Input.GetAxisRaw("Horizontal"),
                                                     speed * Input.GetAxisRaw("Vertical"));
 
-        
-        else //Moving circle by using matrix
-        {
-            transform.position = new Vector3(transform.position.x + trans.GetTranslation().x * Time.deltaTime,
-                                             transform.position.y + trans.GetTranslation().y * Time.deltaTime,
-                                             transform.position.z + trans.GetTranslation().z * Time.deltaTime);
-        }
+        //Moving circle by using matrix
+        transform.position = new Vector3(transform.position.x + trans.GetTranslation().x * Time.deltaTime,
+                                            transform.position.y + trans.GetTranslation().y * Time.deltaTime,
+                                            transform.position.z + trans.GetTranslation().z * Time.deltaTime);
     }
 }

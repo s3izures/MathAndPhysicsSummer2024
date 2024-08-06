@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +12,10 @@ public class GameManager : MonoBehaviour
 
     //Variables
     private int pickupsCollected = 0; //for unlocking purposes
+    private int score = 0;
+    [SerializeField] List<AudioClip> audioClip;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] TextMeshProUGUI scoreTxt;
     public enum AttributeType { RED = 1, GREEN = 2, BLUE = 4, YELLOW = 8 }
 
     void Awake()
@@ -21,6 +28,11 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+    private void Update()
+    {
+        string scoreT = "Score: ";
+        scoreTxt.text = scoreT + score.ToString();
     }
 
     //PICKUPS and UNLOCKING
@@ -40,5 +52,14 @@ public class GameManager : MonoBehaviour
         {
             return false;
         }
+    }
+    public void PlayAudio(int index)
+    {
+        audioSource.clip = audioClip[index];
+        audioSource.Play();
+    }
+    public void ModifyScore(int amt)
+    {
+        score += amt;
     }
 }

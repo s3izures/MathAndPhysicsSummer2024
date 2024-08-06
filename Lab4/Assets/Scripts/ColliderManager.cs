@@ -52,6 +52,8 @@ public class ColliderManager : MonoBehaviour
                     {
                         GameManager.Instance.ModifyPickupAmount(colliders[i].gameObject.GetComponent<Attributes>());
                         DisableCollider(colliders[i]);
+                        GameManager.Instance.PlayAudio(0); //pickup sfx
+                        GameManager.Instance.ModifyScore(10);
                     }
                 }
                 else if (colliders[i].gameObject.CompareTag("Wall"))
@@ -63,6 +65,13 @@ public class ColliderManager : MonoBehaviour
                         colliders[playerCollider].transform.position = pos + ColDistRectCir((CircleCollider)colliders[playerCollider], (RectangleCollider)colliders[i]);
                     }
                 }
+                else if (colliders[i].gameObject.CompareTag("DangerWall"))
+                {
+                    if (CheckCollisionCircleRect((CircleCollider)colliders[playerCollider], (RectangleCollider)colliders[i]))
+                    {
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                    }
+                }
                 else if (colliders[i].gameObject.CompareTag("Gate"))
                 {
                     if (CheckCollisionCircleRect((CircleCollider)colliders[playerCollider], (RectangleCollider)colliders[i])) //Incredibly buggy, does not work in corners
@@ -70,6 +79,8 @@ public class ColliderManager : MonoBehaviour
                         if (GameManager.Instance.TryUnlock(colliders[i].gameObject.GetComponent<Attributes>()))
                         {
                             DisableCollider(colliders[i]);
+                            GameManager.Instance.PlayAudio(1); //gate open sfx
+                            GameManager.Instance.ModifyScore(20);
                         }
                         else //If it doesn't unlock, act like a wall
                         {
